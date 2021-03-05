@@ -6,6 +6,11 @@ class ModelUpgrade1006 extends Model {
 		$this->db->query("UPDATE `" . DB_PREFIX . "setting` SET `value` = 'en-gb' WHERE `key` = 'config_admin_language' AND `value` = 'en'");
 		$this->db->query("UPDATE `" . DB_PREFIX . "language` SET `code` = 'en-gb' WHERE `code` = 'en'");
 
+		// Update some turkish language settings
+		$this->db->query("UPDATE `" . DB_PREFIX . "setting` SET `value` = 'tr-tr' WHERE `key` = 'config_language' AND `value` = 'tr'");
+		$this->db->query("UPDATE `" . DB_PREFIX . "setting` SET `value` = 'tr-tr' WHERE `key` = 'config_admin_language' AND `value` = 'tr'");
+		$this->db->query("UPDATE `" . DB_PREFIX . "language` SET `code` = 'tr-tr' WHERE `code` = 'tr'");
+
 		$this->cache->delete('language');
 
 		// Update the template setting
@@ -47,7 +52,7 @@ class ModelUpgrade1006 extends Model {
 					fclose($handle);
 				}
 			}
-		}			
+		}
 
 		// Update the config.php to add /storage/ to paths
 		if (is_file(DIR_OPENCART . 'config.php')) {
@@ -178,8 +183,8 @@ class ModelUpgrade1006 extends Model {
 	    if (!is_dir($src)) return false;
 
 	    // If the destination directory does not exist create it
-	    if(!is_dir($dest)) {
-	        if(!@mkdir($dest)) {
+	    if (!is_dir($dest)) {
+	        if (!@mkdir($dest)) {
 	            // If the destination directory could not be created stop processing
 	    		return false;
 	        }
@@ -188,9 +193,9 @@ class ModelUpgrade1006 extends Model {
 	    // Open the source directory to read in files
 	    $i = new DirectoryIterator($src);
 	    foreach($i as $f) {
-	        if($f->isFile() && !file_exists("$dest/" . $f->getFilename())) {
+	        if ($f->isFile() && !file_exists("$dest/" . $f->getFilename())) {
 	            @rename($f->getRealPath(), "$dest/" . $f->getFilename());
-	        } elseif(!$f->isDot() && $f->isDir()) {
+	        } elseif (!$f->isDot() && $f->isDir()) {
 	            $this->recursive_move($f->getRealPath(), "$dest/$f");
 	            @unlink($f->getRealPath());
 	        }

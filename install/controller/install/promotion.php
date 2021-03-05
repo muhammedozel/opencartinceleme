@@ -1,25 +1,10 @@
 <?php
 class ControllerInstallPromotion extends Controller {
 	public function index() {
-		$curl = curl_init();
+		$html = '<script async src="https://adsenix.com/api/adsload.js"></script>';
+		$html .= '<div class="adsenix-preloader"></div>';
+		$html .= '<div class="adsenix-wrapper" data-adsenix-publisher="1" data-adsenix-group="3" data-adsenix-format="1"></div>';
 
-		curl_setopt($curl, CURLOPT_URL, 'https://www.opencart.com/index.php?route=api/install');
-		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt($curl, CURLOPT_HEADER, false);
-		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
-		curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 30);
-		curl_setopt($curl, CURLOPT_TIMEOUT, 30);
-
-		$output = curl_exec($curl);
-
-		if (curl_getinfo($curl, CURLINFO_HTTP_CODE) == 200) {
-			$response = $output;
-		} else {
-			$response = '';
-		}
-
-		curl_close($curl);
-
-		return $response;
+		return $html;
 	}
 }
